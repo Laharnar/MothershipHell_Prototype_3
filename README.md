@@ -7,3 +7,8 @@ Focus of this project will be to recreate the old space ship systems for AI, but
 Final result should be at least 10 minutes of playable prototype with spaceships using AI, turrets, building and missions.
 
 Creator: Marko Laharnar (marko.laharnar@gmail.com)
+
+
+Additional Ntes:
+7.9.2019 Testing out the basic Unit tests a bit. 
+I'll use them as needed, to get more complex chunks working.
