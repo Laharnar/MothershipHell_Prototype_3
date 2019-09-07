@@ -9,6 +9,7 @@ Final result should be at least 10 minutes of playable prototype with spaceships
 Creator: Marko Laharnar (marko.laharnar@gmail.com)
 
 
-Additional Ntes:
-7.9.2019 Testing out the basic Unit tests a bit. 
-I'll use them as needed, to get more complex chunks working.
+Additional stuff:
+7.9.2019 Experimenting with units tests in Unity. I'm using them for getting complex chunks tested.
+
+8.9.2019 For AI I've used behaviour trees in combination with scriptable objects.
