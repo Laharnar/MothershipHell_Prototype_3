@@ -267,7 +267,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 1360472013566849396}
-  turretControl: {fileID: 0}
+  turretControl: {fileID: 1360472013566849398}
+--- !u!114 &1360472013566849398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3268947788975676588, guid: 4b961a1d61a5a114abbcd3b93c5db3ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 1360472013566849392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488a268aa2b730a4393dc03c8019871d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1360472013566849399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360472013566849394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ba9502b5978444e9c046ee68c1765b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root: {fileID: 0}
 --- !u!1001 &2777988126076462429
 PrefabInstance:
   m_ObjectHideFlags: 0
