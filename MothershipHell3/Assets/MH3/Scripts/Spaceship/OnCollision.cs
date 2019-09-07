@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class OnCollision:MonoBehaviour {
+public class OnCollision:MonoBehaviour, IAccessAlliance {
     [SerializeField] uint allianceFilter = 0;
 
     Projectile hasProjectileRef;
@@ -38,6 +38,11 @@ public class OnCollision:MonoBehaviour {
 
     public void SetMask(uint mask)
     {
-        allianceFilter = mask;
+        SetAllianceId(mask);
+    }
+
+    public void SetAllianceId(uint id)
+    {
+        allianceFilter = id;
     }
 }

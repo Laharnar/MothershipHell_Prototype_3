@@ -45,8 +45,6 @@ public class TurretAPI : MonoBehaviour
         StartCoroutine(MultiGunRotationHandler());
     }
 
-
-
     private IEnumerator MultiGunRotationHandler()
     {
         while (true)

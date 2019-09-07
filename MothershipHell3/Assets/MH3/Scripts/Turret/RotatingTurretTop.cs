@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotatingTurretTop : MonoBehaviour
 {
-    [SerializeField] Vector3 aimAtRelative;
+    [SerializeField] Vector3 aimAtRelativeDir;// dir
     [SerializeField] float degrees;
     [SerializeField] float smoothingFactor = 1f;
 
@@ -19,8 +19,8 @@ public class RotatingTurretTop : MonoBehaviour
         if (degrees > 360) degrees -= 360;
 
         // for debugging, update aim atRelative.
-        aimAtRelative.x = Mathf.Cos(degrees * Mathf.Deg2Rad);
-        aimAtRelative.y = Mathf.Sin(degrees * Mathf.Deg2Rad);
+        aimAtRelativeDir.x = Mathf.Cos(degrees * Mathf.Deg2Rad);
+        aimAtRelativeDir.y = Mathf.Sin(degrees * Mathf.Deg2Rad);
 
         Quaternion newRot;
         if (useSlerp)
@@ -43,26 +43,30 @@ public class RotatingTurretTop : MonoBehaviour
 
     public void TurnToPoint(Vector2 point)
     {
-        aimAtRelative = (point - (Vector2)transform.position).normalized;
-        degrees = Mathf.Atan2(aimAtRelative.y, aimAtRelative.x) * Mathf.Rad2Deg;
+        aimAtRelativeDir = (point - (Vector2)transform.position).normalized;
+        degrees = Mathf.Atan2(aimAtRelativeDir.y, aimAtRelativeDir.x) * Mathf.Rad2Deg;
     }
 
     public void TurnInDirection(Vector2 dir)
     {
-        aimAtRelative = dir;
-        degrees = Mathf.Atan2(aimAtRelative.y, aimAtRelative.x) * Mathf.Rad2Deg;
+        aimAtRelativeDir = dir;
+        degrees = Mathf.Atan2(aimAtRelativeDir.y, aimAtRelativeDir.x) * Mathf.Rad2Deg;
     }
 
     public void TurnToDegrees(float degToUp)
     {
-        aimAtRelative.x = Mathf.Cos(degToUp * Mathf.Deg2Rad);
-        aimAtRelative.y = Mathf.Sin(degToUp * Mathf.Deg2Rad);
+        aimAtRelativeDir.x = Mathf.Cos(degToUp * Mathf.Deg2Rad);
+        aimAtRelativeDir.y = Mathf.Sin(degToUp * Mathf.Deg2Rad);
         degrees = degToUp;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(transform.position, aimAtRelative);
-        Gizmos.DrawRay(transform.position, aimAtRelative);
+    {// to display this aim properly, it should be added to parent rotation.
+     // which is a waste of resources, just for gizmos.
+        Gizmos.DrawRay(transform.position, 
+            transform.TransformDirection(aimAtRelativeDir));
+        Gizmos.DrawLine(transform.position, transform.position+transform.up*2);
     }
+#endif
 }
