@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d427ac2a11f53564b8ab695a24a918ce, type: 3}
+  m_Name: FindTargetMoveAndFire
+  m_EditorClassIdentifier: 
+  context: 
+  conditions:
+  - {fileID: 11400000, guid: a195355e2055bbe42a298551f40cffa4, type: 2}
+  - {fileID: 11400000, guid: 5f8189b0e905e9e45926ef91c5a2b362, type: 2}

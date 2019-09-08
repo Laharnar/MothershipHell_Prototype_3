@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        rig.MovePosition(rig.position + (Vector2)transform.InverseTransformDirection(direction) * Time.fixedDeltaTime * speed);
+        rig.MovePosition(rig.position + (Vector2)transform.TransformDirection(direction) * Time.fixedDeltaTime * speed);
     }
 
     internal void FlyForward()

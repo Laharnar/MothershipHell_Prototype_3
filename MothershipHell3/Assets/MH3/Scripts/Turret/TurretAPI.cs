@@ -47,6 +47,8 @@ public class TurretAPI : MonoBehaviour
 
     private IEnumerator MultiGunRotationHandler()
     {
+        yield return null;
+        yield return null;
         while (true)
         {
             yield return null;
@@ -56,6 +58,9 @@ public class TurretAPI : MonoBehaviour
 
             // todo: include priority.
             TrackTargetEvent target = targetsToActUpon[targetsToActUpon.Count-1];
+            Debug.Log("assigned target " + target.target);
+            AQAccess.Ins.SetData(transform.root.GetComponentInChildren<ShipAI>(), "Target", target.target);
+
             RotatingTurretTop rotatingPart = rotatingParts[0];
 
             foreach (var turretTracking in eachTurretTrackingType)

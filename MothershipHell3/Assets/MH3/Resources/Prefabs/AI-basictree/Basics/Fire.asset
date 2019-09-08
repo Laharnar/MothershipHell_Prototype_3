@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10fc1fe6e4b67f4f9355155ef880487, type: 3}
+  m_Name: Fire
+  m_EditorClassIdentifier: 
+  context: 
+  child: {fileID: 11400000, guid: 5fc0c338339c6524e865b31a0102bafe, type: 2}
+  fireType: 2

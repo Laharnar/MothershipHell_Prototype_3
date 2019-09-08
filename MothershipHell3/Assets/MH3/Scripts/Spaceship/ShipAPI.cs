@@ -3,12 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipAPI : MonoBehaviour
-{
+public class ShipAPI : MonoBehaviour, IAQAccessible {
     [SerializeField] Movement movement;
     // [SerializeField] Stats stats;
     [SerializeField] TurretAPI turretControl;// rotation is handled inside turret API
-    
+
+    public Transform Obj { get => transform; }
+
+    // tmp, TODO: remove later
+    public Transform target;
+
+    private void Start()
+    {
+        Track(target);
+    }
+
     public void Fly(Vector2 point)
     {
         movement.FlyForward();
@@ -20,4 +29,6 @@ public class ShipAPI : MonoBehaviour
         movement.FlyForward();
         turretControl.AssignTarget(target, TargetType.Moving);
     }
+
+    
 }
