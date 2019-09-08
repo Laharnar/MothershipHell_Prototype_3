@@ -4,8 +4,7 @@
 /// Success <- -> fail, keep the rest
 /// </summary>
 [UnityEngine.CreateAssetMenu(fileName ="ToggleSF", menuName ="AI/ToggleSF",order = 1)]
-public class AQToggleSuccessAndFailNode : AQNode {
-    [SerializeField]AQNode child;
+public class AQToggleSuccessAndFailNode : AQDecoratorNode {
     public override AQResult Execute()
     {
         // converts, or keeps value

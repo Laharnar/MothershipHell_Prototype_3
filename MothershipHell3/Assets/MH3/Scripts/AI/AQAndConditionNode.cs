@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 [CreateAssetMenu(fileName ="And", menuName ="AI/AND", order = 1)]
-public class AQAndConditionNode : AQNode {
+public class AQAndConditionNode : AQListNode {
     // true when all pass, wait and fail are returned.
-    [SerializeField] AQNode[] conditions;
 
     public override AQResult Execute()
     {

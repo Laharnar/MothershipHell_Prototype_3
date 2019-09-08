@@ -1,8 +1,5 @@
-﻿using UnityEngine;
-
-[UnityEngine.CreateAssetMenu(fileName ="If", menuName ="AI/IF",order = 1)]
-public class AQOrConditionNode : AQNode {
-    [SerializeField] AQNode[] conditions;
+﻿[UnityEngine.CreateAssetMenu(fileName ="If", menuName ="AI/IF",order = 1)]
+public class AQOrConditionNode : AQListNode {
 
     public override AQResult Execute()
     {

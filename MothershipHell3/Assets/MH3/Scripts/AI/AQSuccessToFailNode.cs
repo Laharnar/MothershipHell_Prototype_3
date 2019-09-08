@@ -1,11 +1,8 @@
-﻿using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// Converts success to fail, others are normally returned.
 /// </summary>
 [UnityEngine.CreateAssetMenu(fileName ="StoFConvert", menuName ="AI/StoFConvert",order = 1)]
-public class AQSuccessToFailNode : AQNode {
-    [SerializeField] AQNode child;
+public class AQSuccessToFailNode : AQDecoratorNode {
     public override AQResult Execute()
     {
         // converts, or keeps value
