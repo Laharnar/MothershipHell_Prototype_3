@@ -37,9 +37,19 @@ public class AQAccess:MonoBehaviour {
 
     public object iGetData(IAQAccessible source, string code)
     {
+        if (source == null)
+        {
+            Debug.Log("Source function parameter is null. Returning null.");
+            return null;
+        }
         if (!AQSourceLib.ContainsKey(source))
             return null;
-        return AQSourceLib[source].Get(code);
+        object data = AQSourceLib[source].Get(code);
+        if (data == null)
+        {
+            Debug.Log("Data doesn't exist "+ source.Obj +" "+ code, source.Obj);
+        }
+        return data;
     }
 
     public object iGetData(string code)
@@ -64,29 +74,61 @@ public class AQAccess:MonoBehaviour {
 
     public void SetData(IAQAccessible source, string code, int value)
     {
-        if (!AQSourceLib.ContainsKey(source))
+        if (source == null)
+        {
+            Debug.Log("Source function parameter is null. Aborting.");
             return;
+        }
+        if (!AQSourceLib.ContainsKey(source))
+        {
+            Debug.Log("Source " + source + " isn't manually inserted into db. Aborting.");
+            return;
+        }
         AQSourceLib[source].Set(code, value);
     }
 
     public void SetBoolData(IAQAccessible source, string code, bool value)
     {
-        if (!AQSourceLib.ContainsKey(source))
+        if (source == null)
+        {
+            Debug.Log("Source function parameter is null. Aborting.");
             return;
+        }
+        if (!AQSourceLib.ContainsKey(source))
+        {
+            Debug.Log("Source " + source + " isn't manually inserted into db. Aborting.");
+            return;
+        }
         AQSourceLib[source].SetBool(code, value);
     }
 
     public void SetData(IAQAccessible source, string code, object value)
     {
-        if (!AQSourceLib.ContainsKey(source))
+        if (source == null)
+        {
+            Debug.Log("Source function parameter is null. Aborting.");
             return;
+        }
+        if (!AQSourceLib.ContainsKey(source))
+        {
+            Debug.Log("Source " + source + " isn't manually inserted into db. Aborting.");
+            return;
+        }
         AQSourceLib[source].Set(code, value);
     }
 
     public void SetData(IAQAccessible source, string code, Transform value)
     {
-        if (!AQSourceLib.ContainsKey(source))
+        if(source == null)
+        {
+            Debug.Log("Source function parameter is null. Aborting.");
             return;
+        }
+        if (!AQSourceLib.ContainsKey(source))
+        {
+            Debug.Log("Source "+source+" isn't manually inserted into db. Aborting.");
+            return;
+        }
         AQSourceLib[source].Set(code, value);
     }
 }

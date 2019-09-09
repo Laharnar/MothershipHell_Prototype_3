@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5351741945208163065}
   - component: {fileID: 5351741945208163066}
   - component: {fileID: 5351741945208163068}
+  - component: {fileID: 5162918369400502093}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -94,8 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5711b35625983364fa756a7ba2552d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 1}
-  speed: 8
   dealDamage: 1
 --- !u!114 &5351741945208163068
 MonoBehaviour:
@@ -111,6 +110,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allianceFilter: 0
   selfDestructOnFirstCollision: 1
+--- !u!114 &5162918369400502093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5044710575912716123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7d85aa2fb128c48afc3ee831dcd18c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 0, y: 1}
+  speed: 8
 --- !u!1 &5767462593011135534
 GameObject:
   m_ObjectHideFlags: 0

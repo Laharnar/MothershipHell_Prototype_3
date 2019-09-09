@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RangeCheck3
   m_EditorClassIdentifier: 
   context: 
-  range: 5
+  range: 10

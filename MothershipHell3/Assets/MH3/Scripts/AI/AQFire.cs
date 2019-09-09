@@ -10,6 +10,7 @@ public class AQFire : AQDecoratorNode {
 
         if (child==null || child.Execute() == AQResult.Success)
         {
+            Debug.Log("AQFIRe");
             api.Fire(fireType);
             return AQResult.Success;
         }

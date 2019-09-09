@@ -31,7 +31,7 @@ public class ShipAI:MonoBehaviour, IAQAccessible {
             object[] posRangeArr = (object[])posRange;
             Vector3 pos = (Vector3)posRangeArr[0];
             float range = (float)posRangeArr[1];
-            Gizmos.DrawSphere(pos, range);
+            Gizmos.DrawWireSphere(pos, range);
         }
     }
 

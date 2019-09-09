@@ -24,7 +24,7 @@ public class AQAccessData {
         {
             return transforms[code];
         }
-        Debug.Log("Resource for code doesn't exist :: "+code);
+        //Debug.Log("Resource for code doesn't exist :: "+code);
         return null;
     }
 
@@ -48,7 +48,7 @@ public class AQAccessData {
 
     public void Set(string code, object value)
     {
-        if (!bools.ContainsKey(code))
+        if (!objs.ContainsKey(code))
         {
             objs.Add(code, value);
         }

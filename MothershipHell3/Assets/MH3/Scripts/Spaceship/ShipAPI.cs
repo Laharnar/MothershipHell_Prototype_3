@@ -7,6 +7,7 @@ public class ShipAPI : MonoBehaviour, IAQAccessible {
     [SerializeField] Movement movement;
     // [SerializeField] Stats stats;
     [SerializeField] TurretAPI turretControl;// rotation is handled inside turret API
+    public TurretAPI TurretControl { get => turretControl; }// rotation is handled inside turret API
 
     public Transform Obj { get => transform; }
 
