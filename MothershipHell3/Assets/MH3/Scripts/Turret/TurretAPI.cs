@@ -58,10 +58,12 @@ public class TurretAPI : MonoBehaviour
 
             // todo: include priority.
             TrackTargetEvent target = targetsToActUpon[targetsToActUpon.Count-1];
-            Debug.Log("assigned target " + target.target);
+            Debug.Log("assigned target to " +transform.root + target.target+target.context);
             AQAccess.Ins.SetData(transform.root.GetComponentInChildren<ShipAI>(), "Target", target.target);
 
-            RotatingTurretTop rotatingPart = rotatingParts[0];
+            // last one is assumed to be root 
+            // todo: make it safer.
+            RotatingTurretTop rotatingPart = rotatingParts[rotatingParts.Length-1];
 
             foreach (var turretTracking in eachTurretTrackingType)
             {
@@ -88,9 +90,15 @@ public class TurretAPI : MonoBehaviour
 
     private void RotateToTarget(RotatingTurretTop rotatingPart, TrackTargetEvent target)
     {
+        if (transform.root == target.target.root)
+        {
+            Debug.LogError("Aiming at itself", this);
+        }
+
         switch (target.idleMoving)
         {
             case TargetType.Moving:
+
                 rotatingPart.TurnToPoint(target.target.position);
                 break;
             case TargetType.NonMoving:
@@ -178,9 +186,9 @@ public class TurretAPI : MonoBehaviour
         fireToExecute.Enqueue(type);
     }
 
-    public void AssignTarget(Transform target, TargetType idleMoving)
+    public void AssignTarget(Transform target, TargetType idleMoving, string context)
     {
-        targetsToActUpon.Add(new TrackTargetEvent(target, idleMoving));
+        targetsToActUpon.Add(new TrackTargetEvent(target, idleMoving, context));
     }
 
     public void TurnTowardsEmptySpace(Vector2 pt)
@@ -188,7 +196,7 @@ public class TurretAPI : MonoBehaviour
         GameObject temp = new GameObject("_-TempTarget");
         temp.transform.position = pt;
 
-        targetsToActUpon.Add(new TrackTargetEvent(temp.transform, TargetType.NonMoving));
+        targetsToActUpon.Add(new TrackTargetEvent(temp.transform, TargetType.NonMoving, "'turn towards empty space'"));
     }
 
     public Quaternion GunRotation(int gunId)
@@ -205,11 +213,13 @@ public class TurretAPI : MonoBehaviour
 public struct TrackTargetEvent {
     public Transform target;
     public TargetType idleMoving;
+    public string context;
 
-    public TrackTargetEvent(Transform target, TargetType idleMoving)
+    public TrackTargetEvent(Transform target, TargetType idleMoving, string context)
     {
         this.target = target;
         this.idleMoving = idleMoving;
+        this.context = context;
     }
 }
 

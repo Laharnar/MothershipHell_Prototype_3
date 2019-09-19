@@ -47,7 +47,7 @@ public class AQAccess:MonoBehaviour {
         object data = AQSourceLib[source].Get(code);
         if (data == null)
         {
-            Debug.Log("Data doesn't exist "+ source.Obj +" "+ code, source.Obj);
+            Debug.Log("AQ:Data doesn't exist "+ source.Obj +" "+ code, source.Obj);
         }
         return data;
     }

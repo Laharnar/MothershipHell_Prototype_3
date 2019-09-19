@@ -4,54 +4,6 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace SpaceshipBasicSetupTests {
-    public class TestSpaceship {
-        GameObject cam;
-        GameObject ship1;
-        GameObject ship2;
-
-        TurretAPI api1Ship;
-        TurretAPI api2Ship;
-
-        [SetUp]
-        public void Setup()
-        {
-            cam = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Camera-unitTests"));
-            ship1 = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Spaceship-basic1"));
-            ship2 = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Spaceship-basic2"));
-
-            ship1.transform.position = new Vector3(0, 6);
-            ship2.transform.position = new Vector3(0, -6);
-
-            api1Ship = ship1.GetComponentInChildren<TurretAPI>();
-            api2Ship = ship2.GetComponentInChildren<TurretAPI>();
-
-        }
-
-        [TearDown]
-        public void Teardown() {
-            GameObject.Destroy(ship1.gameObject);
-            GameObject.Destroy(ship2.gameObject);
-            GameObject.Destroy(cam.gameObject);
-        }
-
-        [UnityTest]
-        public IEnumerator Test2ShipsAimingAndDamagingEachOther()
-        {
-            api1Ship.TurnTowardsEmptySpace(api2Ship.transform.position);
-            api2Ship.TurnTowardsEmptySpace(api1Ship.transform.position);
-            yield return new WaitForSeconds(6);
-            api1Ship.Fire(FireCommand.FireOneReady);
-            api2Ship.Fire(FireCommand.FireOneReady);
-            yield return new WaitForSeconds(2);
-            
-            Assert.AreEqual(ship1.GetComponentInChildren<Stats>().MaxHealth - 1, ship1.GetComponent<Stats>().CurHealth);
-
-            Assert.AreEqual(ship2.GetComponentInChildren<Stats>().MaxHealth - 1, ship2.GetComponent<Stats>().CurHealth);
-        }
-    }
-}
-
 namespace TurretBasicSetupTests {
 
     public class TestTurret {

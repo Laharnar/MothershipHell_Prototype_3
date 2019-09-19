@@ -5,19 +5,17 @@ using UnityEngine;
 
 public class ShipAPI : MonoBehaviour, IAQAccessible {
     [SerializeField] Movement movement;
+    [SerializeField] RotatingTurretTop rotation;
+
     // [SerializeField] Stats stats;
     [SerializeField] TurretAPI turretControl;// rotation is handled inside turret API
     public TurretAPI TurretControl { get => turretControl; }// rotation is handled inside turret API
 
     public Transform Obj { get => transform; }
+    public Vector3 AimingToLookInDir { get => rotation.Direction; }
+    public float ShipDegrees { get => rotation.Degrees; }
 
-    // tmp, TODO: remove later
-    public Transform target;
-
-    private void Start()
-    {
-        Track(target);
-    }
+    bool init = false;
 
     public void Fly(Vector2 point)
     {
@@ -25,11 +23,12 @@ public class ShipAPI : MonoBehaviour, IAQAccessible {
         turretControl.TurnTowardsEmptySpace(point);
     }
 
-    public void Track(Transform target)
+    public void Track(Transform target, bool move =true, bool rotate = true)
     {
-        movement.FlyForward();
-        turretControl.AssignTarget(target, TargetType.Moving);
+        if(move) movement.FlyForward();
+        if(rotate) rotation.TurnToPoint(target.localPosition);
     }
+
 
     
 }
