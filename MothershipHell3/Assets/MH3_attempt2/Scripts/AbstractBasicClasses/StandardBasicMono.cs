@@ -1,22 +1,6 @@
-﻿public abstract class StandardBasicMono: BasicMono {
+﻿/// <summary>
+/// Completly simple mono, that just inits and locks/unlock item
+/// </summary>
+public abstract class STANDMono: BasicMono {
 
-    // don't override
-    protected void Start()
-    {
-        Initialize();
-    }
-
-    // don't override
-    protected void Update()
-    {
-        if (IsInit) return;
-        if (!IsLocked)
-        {
-            OnIsUnlocked();
-        }
-        else
-        {
-            OnIsLocked();
-        }
-    }
 }

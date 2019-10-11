@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour {
+
+    bool move = true;
     [SerializeField] Vector2 direction = Vector2.up;
     [SerializeField] float speed = 10f;
     Rigidbody2D rig;
@@ -17,7 +19,10 @@ public class Movement : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        rig.MovePosition(rig.position + (Vector2)transform.TransformDirection(direction) * Time.fixedDeltaTime * speed);
+        if (move)
+        {
+            rig.MovePosition(rig.position + (Vector2)transform.TransformDirection(direction) * Time.fixedDeltaTime * speed);
+        }
     }
 
     internal void FlyForward()

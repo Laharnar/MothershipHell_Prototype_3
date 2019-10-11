@@ -12,14 +12,14 @@ public class DragSelection : MonoBehaviour {
     Camera mainCam;
 
     [SerializeField] Rect selectArea;
-    [SerializeField] List<StandardSelectableMono> selectableGameBehaviours;
+    [SerializeField] List<STANDSelectableMono> selectableGameBehaviours;
 
     // dev variables
     [SerializeField] List<GameObject> dev_currentlySelected;
 
     private void Awake()
     {
-        selectableGameBehaviours = new List<StandardSelectableMono>();
+        selectableGameBehaviours = new List<STANDSelectableMono>();
         selectedGameObjects = new List<ISelectable>();
         dev_currentlySelected = new List<GameObject>();
         selectArea = new Rect();
@@ -28,6 +28,7 @@ public class DragSelection : MonoBehaviour {
 
     private void Update()
     {
+        // Reset drag for new selection and trigger deselect callbacks.
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             click = true;
@@ -50,8 +51,10 @@ public class DragSelection : MonoBehaviour {
             selectArea.height = Input.mousePosition.y- selectArea.y ;
         }
 
+        // Select units inside the marked rectangle and trigger select callbacks.
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
+            // record click
             click = false;
             selectArea.width = Input.mousePosition.x-selectArea.x;
             selectArea.height = Input.mousePosition.y-selectArea.y;
@@ -89,7 +92,7 @@ public class DragSelection : MonoBehaviour {
         }
     }
 
-    public void RegisterAsSelectable(StandardSelectableMono obj)
+    public void RegisterAsSelectable(STANDSelectableMono obj)
     {
         selectableGameBehaviours.Add(obj);
     }
