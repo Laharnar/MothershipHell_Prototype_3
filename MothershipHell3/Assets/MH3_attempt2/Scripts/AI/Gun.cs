@@ -11,6 +11,9 @@ public class Gun : STANDSelectableMono
     public bool CanFire { get => _canFire; set => _canFire = value; }// high level lock.
     public bool BlockFire { get; set; } // tells us if gun was locked from internal code.
 
+    [SerializeField] bool inheritAllianceFromAITTarget = false;
+    int _allianceAssignedToBullets = -2;
+
     // gun
     // data
     [Range(0.001f, 10f)] [SerializeField] float fireRateFine;
@@ -28,10 +31,47 @@ public class Gun : STANDSelectableMono
     // + pooling
     string optional_poolingBulletTag;
 
-    protected new void Start()
-    {
-        base.Start();
+    private static Gun LastGunThatSpawned;
+    public static int AllianceOfLastGunThatSpawned {
+        get => LastGunThatSpawned._allianceAssignedToBullets;
+    }
 
+    protected override void OnIsLockedChange(bool isLocked)
+    {
+        base.OnIsLockedChange(isLocked);
+        if (isLocked)
+        {
+            UnRegisterFromDrag();
+        }
+        else
+        {
+            RegisterToDrag();
+        }
+    }
+
+    protected override void LoadComponents()
+    {
+        base.LoadComponents();
+
+    }
+    protected override void Preloader()
+    {
+        base.Preloader();
+
+        if (inheritAllianceFromAITTarget)
+        {
+            AITTarget ait = GetComponentInParent<AITTarget>();
+            if (ait)
+            {
+                _allianceAssignedToBullets = ait.Alliance;
+            }
+            else
+            {
+                Debug.Log("No AITTarget component in parent to inherit alliance from. Required for correct bullet creation.");
+            }
+        }
+
+        // save bullet's tag, to use it later when creating bullets.
         optional_poolingBulletTag = null;
         if (prefabBullet)
         {
@@ -43,7 +83,7 @@ public class Gun : STANDSelectableMono
         }
         else Debug.Log("Missing bullet prefab.");
     }
-
+    
     void AIFFire()
     {
         if (CanFire && !BlockFire)
@@ -65,14 +105,19 @@ public class Gun : STANDSelectableMono
 
     void SpawnBullet(Transform prefabBullet, Transform spawnPoint, object extension=null)
     {
-        if (optional_poolingBulletTag!=null)
-            this.GetUniqueClass<Pooling>().CreateInstance("Bullets", prefabBullet, spawnPoint.position, spawnPoint.rotation);
+        if (optional_poolingBulletTag != null)
+        {
+            LastGunThatSpawned = this;
+            this.GetUniqueClass<Pooling>().CreateInstance(optional_poolingBulletTag, prefabBullet, spawnPoint.position, spawnPoint.rotation);
+
+            
+
+        }
         else Instantiate(prefabBullet, spawnPoint.position, spawnPoint.rotation);
     }
 
     protected override void OnIsUnlockedUpdate()
     {
-        Debug.Log("unlokced");
         BlockFire = false;
         AIFFire();
     }

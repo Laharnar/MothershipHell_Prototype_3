@@ -37,7 +37,7 @@ public static class ClassCache {
             return (T)cache[typeof(T)];
         }
         T t = GameObject.FindObjectOfType<T>();
-        Debug.Log("Caching new unique class "+t +" of type "+typeof(T));
+        Debug.Log("Caching new unique class "+t +" with key type "+typeof(T));
         cache.Add(typeof(T), t);
         return t;
     }

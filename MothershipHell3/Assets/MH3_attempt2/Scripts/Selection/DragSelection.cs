@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
 /// Allows mouse based drag selection.
 /// 
 /// Relies on ISelectable to distribute calls.
-/// </summary>
+/// </summary>1
 public class DragSelection : MonoBehaviour {
     bool click = false;
 
@@ -13,6 +14,9 @@ public class DragSelection : MonoBehaviour {
 
     [SerializeField] Rect selectArea;
     [SerializeField] List<STANDSelectableMono> selectableGameBehaviours;
+
+    // API properties
+    public List<ISelectable> SelectedObjects { get => selectedGameObjects; }
 
     // dev variables
     [SerializeField] List<GameObject> dev_currentlySelected;
@@ -80,7 +84,7 @@ public class DragSelection : MonoBehaviour {
                 //Debug.Log(objInScreenCoordinates); // dev
                 if (selectionAreaFinal.Contains(objInScreenCoordinates))
                 {
-                    Debug.Log("Selected "+i+" "+selectableGameBehaviours[i]);
+                    Debug.Log("Drag selected "+i+" "+selectableGameBehaviours[i]);
                     selectedGameObjects.Add(selectableGameBehaviours[i]);
                     dev_currentlySelected.Add(selectableGameBehaviours[i].gameObject);
                 }
@@ -90,6 +94,11 @@ public class DragSelection : MonoBehaviour {
                 selectedGameObjects[i].OnSelected();
             }
         }
+    }
+
+    public void UnRegisterAsSelectable(STANDSelectableMono obj)
+    {
+        selectableGameBehaviours.Remove(obj);
     }
 
     public void RegisterAsSelectable(STANDSelectableMono obj)

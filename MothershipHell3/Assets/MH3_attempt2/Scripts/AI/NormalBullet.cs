@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class NormalBullet : STANDPhysicsMono, IPooling {
 
-    bool move;
+    Vector2 localMoveDir;
+
     [SerializeField] int dmg = 1;
     [SerializeField] int _alliance;
     public int Alliance { get => _alliance; }
     public string PoolingGroupTag { get => "Bullets"; }
     [Range(0, 200)] [SerializeField] float lifeTime = 1;
     float startLifetime;
+
+    // gun specifi
+    const bool INHERITALLIANCEFROMGUN = true;
 
     protected override void OnIsLockedUpdate()
     {
@@ -18,7 +22,6 @@ public class NormalBullet : STANDPhysicsMono, IPooling {
 
     protected override void OnIsUnlockedUpdate()
     {
-        move = true;
         if (Time.time > startLifetime+lifeTime)
         {
             Debug.Log("Bullet timed out - lifetime: "+lifeTime);
@@ -28,19 +31,9 @@ public class NormalBullet : STANDPhysicsMono, IPooling {
 
     protected override void OnPhysicsUpdate()
     {
-        rig.MovePosition(LocalPos+Vector2.up);
-    }
-
-    protected override void Initialize()
-    {
-        base.Initialize();
-        move = false;
-
-    }
-
-    protected override void Preloader()
-    {
-        //.
+        localMoveDir = transform.up;
+        rig.MovePosition(LocalPos + localMoveDir);
+        //rig.MovePosition(LocalPos + (Vector2)transform.TransformDirection(localMoveDir));
     }
 
     protected override void OnTriggerIn2D(Collider2D col)
@@ -58,6 +51,10 @@ public class NormalBullet : STANDPhysicsMono, IPooling {
         IsLocked = false;
         updatePhysics = true;
         startLifetime = Time.time;
+        if (INHERITALLIANCEFROMGUN)
+        {
+            _alliance = Gun.AllianceOfLastGunThatSpawned;
+        }
     }
 
     public void OnPooledStandby()

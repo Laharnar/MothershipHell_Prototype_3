@@ -8,29 +8,38 @@ public abstract class BasicMono : MonoBehaviour {
     [SerializeField] bool _isLocked;
     protected bool IsLocked { get => _isLocked;
         set {
-            LastIsLocked = _isLocked;
-            _isLocked = value;
+            if (_isLocked != value)
+            {
+                _isLocked = value;
+                BasicMono[] monos = GetComponentsInChildren<BasicMono>();
+                for (int i = 0; i < monos.Length; i++)
+                {
+                    monos[i]._isLocked = value;
+                    monos[i].OnIsLockedChange(_isLocked);
+                }
+            }
         }
     }
     protected bool LastIsLocked;
     [SerializeField] protected bool IsInit;
 
-    protected virtual void Initialize() {
+    void Initialize() {
 
         IsInit = true;
-        LastIsLocked = !_isLocked;
         LoadComponents();
         Preloader();
     }
 
-    protected virtual void OnIsLockedChange(bool newState) { /*. */ }
-    protected abstract void OnIsUnlockedUpdate();
-    protected abstract void OnIsLockedUpdate();
+    protected virtual void OnIsUnlockedUpdate() { }
+    protected virtual void OnIsLockedUpdate() { }
 
-    protected abstract void Preloader();// allows any script to load this object.
-    protected virtual void LoadComponents() {
-        // .
-    }
+    // get's triggered when locked/unlocked changes. not in start.
+    protected virtual void OnIsLockedChange(bool isLocked) { /*. */ }
+
+    // second phase in Initialization.
+    protected virtual void Preloader() { }// allows any script to load this object.
+    // separate phase for components in Initialization.
+    protected virtual void LoadComponents() { }
 
     // don't override
     protected void Start()
@@ -54,7 +63,8 @@ public abstract class BasicMono : MonoBehaviour {
 
     protected virtual void DestroyObj()
     {
+        Debug.Log("Standard destroy on low level "+name, this);
+
         GameObject.Destroy(gameObject);
     }
-
 }

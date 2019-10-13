@@ -8,6 +8,8 @@ public abstract class STANDPhysicsMono : BasicMono {
 
     protected void FixedUpdate()
     {
+        if (IsLocked)
+            return;
         if(updatePhysics)
             OnPhysicsUpdate();
     }
@@ -19,7 +21,8 @@ public abstract class STANDPhysicsMono : BasicMono {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        OnTriggerIn2D(collision);
+        if(!IsLocked)
+            OnTriggerIn2D(collision);
     }
 
     protected abstract void OnPhysicsUpdate();

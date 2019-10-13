@@ -13,16 +13,17 @@ public class Pooling:MonoBehaviour {
         StartCoroutine(SlowCleanupOfEmptyValues());
     }
 
+    // pool and destroy every child.
     public void DestroyPooledObject(string group, GameObject obj, BasicMono settings)
     {
+        AllAsStandby(obj.GetComponentsInChildren<IPooling>());
         if (PoolExists(group))
         {
-            AllAsStandby(obj.GetComponentsInChildren<IPooling>());
             cache[group].DestroyExisting(obj);
-            obj.transform.position = new Vector2(10000, 0);
         }
+        obj.transform.position = new Vector2(10000, 0);
         // ignore incorrect tags
-        Debug.Log("Tag doesn't exist. Ignored."+ group);
+        Debug.Log("Tag doesn't exist. Won't be pooled, just moved and .ipooling called.."+ group);
     }
 
     public GameObject CreateInstance(
@@ -37,6 +38,7 @@ public class Pooling:MonoBehaviour {
             CreateNewPoolType(10, registerUnderTag, prefab, true);
         }
         GameObject obj = cache[registerUnderTag].CreateFromPool(pos, rotation);
+        
         AllAsReady(obj.GetComponentsInChildren<IPooling>());
         return obj;
     }
@@ -139,7 +141,7 @@ public class Pooling:MonoBehaviour {
             createdObjects.Add(item);
         }
 
-        public void DestroyExisting(GameObject obj)
+        internal void DestroyExisting(GameObject obj)
         {
             if(obj == null)
             {
@@ -151,12 +153,12 @@ public class Pooling:MonoBehaviour {
                 if (createdObjects[i] != null &&
                     createdObjects[i].instance == obj)
                 {
-                    Debug.Log("Destroy existing, id:"+i);
+                    Debug.Log("Pool-Standby existing, id:"+i+createdObjects[i].instance);
                     createdObjects[i].SetToStandby();
                     return;
                 }
             }
-            Debug.Log("Couldn't destroy object because it's not in pool, adding it on standby.");
+            Debug.Log("Couldn't destroy object because it's not in pool, adding it to pool on standby. "+obj, obj);
             PoolItem item = new PoolItem() { instance = obj, isInPoolOnStandby = true };
             item.SetToStandby();
             createdObjects.Add(item);
