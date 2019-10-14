@@ -30,6 +30,7 @@ public abstract class STANDSelectableMono : BasicMono, ISelectable {
     protected override void DestroyObj()
     {
         UnRegisterFromDrag();
+
         base.DestroyObj();
     }
 

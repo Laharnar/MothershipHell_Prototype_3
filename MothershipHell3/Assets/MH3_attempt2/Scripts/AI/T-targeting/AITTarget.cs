@@ -7,32 +7,37 @@ public class AITTarget : STANDSelectableMono, IPooling {
     [SerializeField] int alliance;
     [SerializeField] bool _autoUpdateTrackingWhenTargetExists = true;
     [SerializeField] string _poolingGroupTag="fillout";
+    [SerializeField] bool _isTargetableByOthers = false;
 
     // properties
     public int Alliance { get => alliance; }
-    public bool HasTarget { get => _activeTarget; }
+    public bool HasTarget { get => _activeTarget && !_activeTarget.Destroyed; }
 
     /// <summary>
     /// When target exists, this is automatically updated to target pos.
     /// </summary>
     public Vector2 ActiveTrackPos { get => _activeTargetPos; }
     public string PoolingGroupTag { get => _poolingGroupTag; }
+    public bool Destroyed { get => _destroyed; }
 
     // instance data
     AITTarget _activeTarget;
     Vector2 _activeTargetPos;
+    private bool _destroyed;
 
     protected override void OnIsLockedChange(bool isLocked)
     {
         base.OnIsLockedChange(isLocked);
         if (isLocked)
         {
-            this.GetUniqueClass<AITGlobalTracking>().UnRegisterAITTarget(this);
+            if (_isTargetableByOthers)
+                this.GetUniqueClass<AITGlobalTracking>().UnRegisterAITTarget(this);
             UnRegisterFromDrag();
         }
         else
         {
-            this.GetUniqueClass<AITGlobalTracking>().RegisterAITTarget(this);
+            if (_isTargetableByOthers)
+                this.GetUniqueClass<AITGlobalTracking>().RegisterAITTarget(this);
             RegisterToDrag();
         }
     }
@@ -87,11 +92,13 @@ public class AITTarget : STANDSelectableMono, IPooling {
         // .
         Debug.Log("pool ready "+gameObject, this);
         IsLocked = false;
+        _destroyed = false;
     }
 
     public void OnPooledStandby()
     {
-        Debug.Log("pool destroy"+gameObject, this);
+        Debug.Log("pool destroy" + gameObject, this);
         IsLocked = true;
+        _destroyed = true;
     }
 }

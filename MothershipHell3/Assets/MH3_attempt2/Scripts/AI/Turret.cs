@@ -83,6 +83,7 @@ public class Turret : STANDSelectableMono, IPooling, IAITControllable {
             // pool object, and disable every child
             Debug.Log("pool destroy " + gameObject);
             this.LastResult<Pooling>().DestroyPooledObject(PoolingGroupTag, gameObject, this);
+
         }
         else base.DestroyObj();
     }
