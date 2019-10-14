@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 
 public interface IAITControllable {
-    void AITMoveTo(Vector2 point);
+    void AITAimMoveTo(Vector2 point);
 }

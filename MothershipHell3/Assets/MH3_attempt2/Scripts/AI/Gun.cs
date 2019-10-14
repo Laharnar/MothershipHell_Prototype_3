@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Firing. WITHOUT rotation.
+/// </summary>
 public class Gun : BasicMono, IPooling
 {
     // firing

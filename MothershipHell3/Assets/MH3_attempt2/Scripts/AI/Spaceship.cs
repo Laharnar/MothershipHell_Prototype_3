@@ -23,7 +23,7 @@ public class Spaceship : STANDPhysicsMono, IAITControllable, IPooling {
 
     [SerializeField] string _shipType;
 
-    public void AITMoveTo(Vector2 point)
+    public void AITAimMoveTo(Vector2 point)
     {
         transform.up = (point - (Vector2)transform.position).normalized;
         _localMoveDir = Vector2.up;

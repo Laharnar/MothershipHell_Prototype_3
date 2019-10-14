@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public class Turret : STANDSelectableMono, IPooling {
+/// <summary>
+/// Rotation.
+/// </summary>
+public class Turret : STANDSelectableMono, IPooling, IAITControllable {
 
     // scene data
     [SerializeField] Gun[] guns;
@@ -82,5 +85,10 @@ public class Turret : STANDSelectableMono, IPooling {
             this.LastResult<Pooling>().DestroyPooledObject(PoolingGroupTag, gameObject, this);
         }
         else base.DestroyObj();
+    }
+
+    public void AITAimMoveTo(Vector2 point)
+    {
+        transform.up = point - (Vector2)transform.position;
     }
 }
