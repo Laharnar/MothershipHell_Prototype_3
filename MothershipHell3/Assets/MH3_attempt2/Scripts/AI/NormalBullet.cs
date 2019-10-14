@@ -1,7 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public class NormalBullet : STANDPhysicsMono, IPooling {
+public interface IAllianceInheritance {
+    int Alliance { get; }
+
+    InheritAllianceFrom inheritFrom { get; }
+}
+
+public class NormalBullet : STANDPhysicsMono, IPooling, IAllianceInheritance {
 
     Vector2 localMoveDir;
 
@@ -9,6 +15,9 @@ public class NormalBullet : STANDPhysicsMono, IPooling {
     [SerializeField] int _alliance;
     public int Alliance { get => _alliance; }
     public string PoolingGroupTag { get => "Bullets"; }
+
+    public InheritAllianceFrom inheritFrom { get => InheritAllianceFrom.Gun; }
+
     [Range(0, 200)] [SerializeField] float lifeTime = 1;
     float startLifetime;
 
@@ -51,10 +60,7 @@ public class NormalBullet : STANDPhysicsMono, IPooling {
         IsLocked = false;
         updatePhysics = true;
         startLifetime = Time.time;
-        if (INHERITALLIANCEFROMGUN)
-        {
-            _alliance = Gun.AllianceOfLastGunThatSpawned;
-        }
+        _alliance = Gun.AllianceOfLastGunThatSpawned;
     }
 
     public void OnPooledStandby()

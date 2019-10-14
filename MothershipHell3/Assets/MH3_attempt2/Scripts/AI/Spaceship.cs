@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-public class Spaceship : STANDPhysicsMono, IAITControllable {
+public class Spaceship : STANDPhysicsMono, IAITControllable, IPooling {
 
 
     // scene
@@ -9,7 +9,8 @@ public class Spaceship : STANDPhysicsMono, IAITControllable {
     // instance 
     [SerializeField] Vector2 _localMoveDir;
     // data
-    [SerializeField] int _alliance;
+    [SerializeField] int _alliance=-2;
+    [SerializeField] bool inheritAllianceFromAITTarget = false;
     [SerializeField] int _spaceshipTypeFilter;
     [SerializeField] float _health = 1;
     [SerializeField] float _dmgModifier = 1;
@@ -17,9 +18,10 @@ public class Spaceship : STANDPhysicsMono, IAITControllable {
     [SerializeField] float _moveSpeed=1f;
 
     public int Alliance { get => _alliance; }
-    public float Health { get => _health; set => _health = value; }
+    public float Health { get => _health; private set => _health = value; }
+    public string PoolingGroupTag { get => _shipType; }
 
-    public string PoolingGroupTag = "SpaceshipType1";
+    [SerializeField] string _shipType;
 
     public void AITMoveTo(Vector2 point)
     {
@@ -27,14 +29,33 @@ public class Spaceship : STANDPhysicsMono, IAITControllable {
         _localMoveDir = Vector2.up;
     }
 
+    void InheritAlliance()
+    {
+
+        if (inheritAllianceFromAITTarget)
+        {
+            AITTarget ait = GetComponentInParent<AITTarget>();
+            if (ait)
+            {
+                _alliance = ait.Alliance;
+            }
+            else
+            {
+                Debug.Log("No AITTarget component in parent to inherit alliance from. Required for correct bullet creation.");
+            }
+        }
+    }
+    protected override void LoadComponents()
+    {
+        base.LoadComponents();
+        if (_rig == null) _rig = GetComponent<Rigidbody2D>();
+    }
     protected override void Preloader()
     {
         base.Preloader();
-        if (_rig == null)
-        {
-            _rig = GetComponent<Rigidbody2D>();
-        }
+        InheritAlliance();
     }
+    
 
     // dmg filtering
     internal bool CanRecieveDmgFrom(NormalBullet bullet)
@@ -44,7 +65,6 @@ public class Spaceship : STANDPhysicsMono, IAITControllable {
 
     internal void DoDamage(int dmg)
     {
-        //.
         Debug.Log(string.Format("do dmg to ship "+ dmg));
         // dmg hp
         Health -= dmg * _dmgModifier;
@@ -53,11 +73,7 @@ public class Spaceship : STANDPhysicsMono, IAITControllable {
             DestroyObj();
         }
     }
-
-    internal void AITStop()
-    {
-        _localMoveDir = Vector2.zero;
-    }
+    
 
     protected override void OnPhysicsUpdate()
     {
@@ -78,5 +94,17 @@ public class Spaceship : STANDPhysicsMono, IAITControllable {
             this.LastResult<Pooling>().DestroyPooledObject(PoolingGroupTag, gameObject, this);
         }
         else base.DestroyObj();
+    }
+
+    public void OnPooledReady()
+    {
+        InheritAlliance();
+        IsLocked = false;
+    }
+
+    public void OnPooledStandby()
+    {
+        IsLocked = true;
+        _localMoveDir = Vector2.zero;
     }
 }

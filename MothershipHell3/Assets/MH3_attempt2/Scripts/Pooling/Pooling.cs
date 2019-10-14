@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pooling:MonoBehaviour {
+public class Pooling : MonoBehaviour {
 
     Dictionary<string, PoolInstance> cache;
 

@@ -283,11 +283,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 101465338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af2357b588aba53449d0db162af62175, type: 3}
+  m_Script: {fileID: 11500000, guid: b83c407e3ab66e247acef6388839eb04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Selection>k__BackingField: []
-  <LastMask>k__BackingField: []
   dev_Selection: []
 --- !u!1 &228358238
 GameObject:
@@ -399,11 +397,12 @@ MonoBehaviour:
   _rig: {fileID: 228358240}
   _localMoveDir: {x: 0, y: 0}
   _alliance: 0
+  inheritAllianceFromAITTarget: 0
   _spaceshipTypeFilter: 0
   _health: 5
   _dmgModifier: 1
   _moveSpeed: 5
-  PoolingGroupTag: SpaceshipType1
+  _shipType: ShipType2
 --- !u!4 &228358242
 Transform:
   m_ObjectHideFlags: 0
@@ -541,11 +540,12 @@ MonoBehaviour:
   _rig: {fileID: 256031794}
   _localMoveDir: {x: 0, y: 0}
   _alliance: 1
+  inheritAllianceFromAITTarget: 0
   _spaceshipTypeFilter: 0
   _health: 5
   _dmgModifier: 1
   _moveSpeed: 5
-  PoolingGroupTag: SpaceshipType1
+  _shipType: ShipType1
 --- !u!4 &256031796
 Transform:
   m_ObjectHideFlags: 0
@@ -863,11 +863,12 @@ MonoBehaviour:
   _rig: {fileID: 0}
   _localMoveDir: {x: 0, y: 0}
   _alliance: 0
+  inheritAllianceFromAITTarget: 0
   _spaceshipTypeFilter: 0
   _health: 5
   _dmgModifier: 1
   _moveSpeed: 1
-  PoolingGroupTag: SpaceshipType1
+  _shipType: 
 --- !u!4 &451671116
 Transform:
   m_ObjectHideFlags: 0
@@ -939,11 +940,12 @@ MonoBehaviour:
   _rig: {fileID: 459587727}
   _localMoveDir: {x: 0, y: 0}
   _alliance: 0
+  inheritAllianceFromAITTarget: 0
   _spaceshipTypeFilter: 0
   _health: 0
   _dmgModifier: 1
   _moveSpeed: 1
-  PoolingGroupTag: SpaceshipType1
+  _shipType: MothershipType1
 --- !u!4 &459587729
 Transform:
   m_ObjectHideFlags: 0
@@ -1261,8 +1263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isLocked: 0
   IsInit: 0
-  canPlayerSelectIt: 0
-  inheritAllianceFromAITTarget: 0
+  inheritAllianceFromAITTarget: 1
   fireRateFine: 1.2
   fireRateRough: 0
   prefabBullet: {fileID: 4612167788843394164, guid: 22bba2ce0b2395a418bd01d29def1260,
@@ -1286,7 +1287,7 @@ MonoBehaviour:
   isRoot: 0
   alliance: 0
   _autoUpdateTrackingWhenTargetExists: 1
-  _poolingGroupTag: fillout
+  _poolingGroupTag: TurretType1
 --- !u!61 &1591298642
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1550,11 +1551,12 @@ MonoBehaviour:
   _rig: {fileID: 1747377710}
   _localMoveDir: {x: 0, y: 0}
   _alliance: 1
+  inheritAllianceFromAITTarget: 0
   _spaceshipTypeFilter: 0
   _health: 5
   _dmgModifier: 1
   _moveSpeed: 5
-  PoolingGroupTag: SpaceshipType1
+  _shipType: ShipType1
 --- !u!4 &1747377712
 Transform:
   m_ObjectHideFlags: 0

@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : STANDSelectableMono
+public class Gun : BasicMono, IPooling
 {
     // firing
     // instance data
     bool _canFire = true;
     public bool CanFire { get => _canFire; set => _canFire = value; }// high level lock.
-    public bool BlockFire { get; set; } // tells us if gun was locked from internal code.
+    public bool BlockFire { get; set; } // low level lock. tells us if gun was locked from internal code.
 
     [SerializeField] bool inheritAllianceFromAITTarget = false;
-    int _allianceAssignedToBullets = -2;
+    int _alliance = -2;
 
     // gun
     // data
@@ -31,32 +31,17 @@ public class Gun : STANDSelectableMono
     // + pooling
     string optional_poolingBulletTag;
 
+    // Allows bullets to get gun's alliance.
+    int _allianceAssignedToBullets;
     private static Gun LastGunThatSpawned;
     public static int AllianceOfLastGunThatSpawned {
         get => LastGunThatSpawned._allianceAssignedToBullets;
     }
 
-    protected override void OnIsLockedChange(bool isLocked)
-    {
-        base.OnIsLockedChange(isLocked);
-        if (isLocked)
-        {
-            UnRegisterFromDrag();
-        }
-        else
-        {
-            RegisterToDrag();
-        }
-    }
+    public string PoolingGroupTag { get; }
 
-    protected override void LoadComponents()
+    void InheritAlliance()
     {
-        base.LoadComponents();
-
-    }
-    protected override void Preloader()
-    {
-        base.Preloader();
 
         if (inheritAllianceFromAITTarget)
         {
@@ -64,17 +49,26 @@ public class Gun : STANDSelectableMono
             if (ait)
             {
                 _allianceAssignedToBullets = ait.Alliance;
+                _alliance = ait.Alliance;
             }
             else
             {
                 Debug.Log("No AITTarget component in parent to inherit alliance from. Required for correct bullet creation.");
             }
         }
+    }
+
+    protected override void Preloader()
+    {
+        base.Preloader();
+
+        InheritAlliance();
 
         // save bullet's tag, to use it later when creating bullets.
         optional_poolingBulletTag = null;
         if (prefabBullet)
         {
+
             IPooling p = prefabBullet.GetComponent<IPooling>();
             if (p != null)
             {
@@ -83,10 +77,15 @@ public class Gun : STANDSelectableMono
         }
         else Debug.Log("Missing bullet prefab.");
     }
-    
+
+    protected override void OnIsUnlockedUpdate()
+    {
+        AIFFire();
+    }
+
     void AIFFire()
     {
-        if (CanFire && !BlockFire)
+        if (CanFire && !IsLocked)
         {
             FireGun();
         }
@@ -116,14 +115,14 @@ public class Gun : STANDSelectableMono
         else Instantiate(prefabBullet, spawnPoint.position, spawnPoint.rotation);
     }
 
-    protected override void OnIsUnlockedUpdate()
+    public void OnPooledReady()
     {
-        BlockFire = false;
-        AIFFire();
+        IsLocked = false;
+        InheritAlliance();
     }
 
-    protected override void OnIsLockedUpdate()
+    public void OnPooledStandby()
     {
-        BlockFire = true;
+        IsLocked = true;
     }
 }
