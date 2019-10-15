@@ -88,7 +88,7 @@ public class AITTarget : STANDSelectableMono, IPooling {
         }
     }
 
-    public void OnPooledReady()
+    public void OnPooledCreated()
     {
         // .
         Debug.Log("pool ready "+gameObject, this);
@@ -96,7 +96,7 @@ public class AITTarget : STANDSelectableMono, IPooling {
         _destroyed = false;
     }
 
-    public void OnPooledStandby()
+    public void OnPooledDestroyed()
     {
         Debug.Log("pool destroy" + gameObject, this);
         IsLocked = true;

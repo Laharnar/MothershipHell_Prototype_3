@@ -55,7 +55,7 @@ public class NormalBullet : STANDPhysicsMono, IPooling, IAllianceInheritance {
         }
     }
 
-    public void OnPooledReady()
+    public void OnPooledCreated()
     {
         IsLocked = false;
         updatePhysics = true;
@@ -63,7 +63,7 @@ public class NormalBullet : STANDPhysicsMono, IPooling, IAllianceInheritance {
         _alliance = Gun.AllianceOfLastGunThatSpawned;
     }
 
-    public void OnPooledStandby()
+    public void OnPooledDestroyed()
     {
         IsLocked = true;
         updatePhysics = false;

@@ -118,13 +118,13 @@ public class Gun : BasicMono, IPooling
         else Instantiate(prefabBullet, spawnPoint.position, spawnPoint.rotation);
     }
 
-    public void OnPooledReady()
+    public void OnPooledCreated()
     {
         IsLocked = false;
         InheritAlliance();
     }
 
-    public void OnPooledStandby()
+    public void OnPooledDestroyed()
     {
         IsLocked = true;
     }

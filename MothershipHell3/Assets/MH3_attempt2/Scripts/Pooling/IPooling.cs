@@ -1,6 +1,6 @@
 ﻿public interface IPooling {
     string PoolingGroupTag { get; }
 
-    void OnPooledReady();
-    void OnPooledStandby();
+    void OnPooledCreated();
+    void OnPooledDestroyed();
 }

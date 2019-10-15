@@ -49,14 +49,14 @@ public class Turret : STANDSelectableMono, IPooling, IAITControllable {
         }
     }
 
-    public void OnPooledReady()
+    public void OnPooledCreated()
     {
         _alliance = GetComponentInParent<IAllianceInheritance>().Alliance;
         IsLocked = false;
         AIBFire();
     }
 
-    public void OnPooledStandby()
+    public void OnPooledDestroyed()
     {
         IsLocked = true;
         AIBHoldFire();
@@ -82,8 +82,11 @@ public class Turret : STANDSelectableMono, IPooling, IAITControllable {
         {
             // pool object, and disable every child
             Debug.Log("pool destroy " + gameObject);
-            this.LastResult<Pooling>().DestroyPooledObject(PoolingGroupTag, gameObject, this);
-
+            if (this.LastResult<Pooling>().DestroyPooledObject(PoolingGroupTag, gameObject, this) == false)
+            {
+                Debug.Log("Failed to pool destroy. "+PoolingGroupTag+" < "+name);
+                base.DestroyObj();
+            }
         }
         else base.DestroyObj();
     }

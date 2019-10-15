@@ -1,29 +1,61 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class Pooling : MonoBehaviour {
 
     Dictionary<string, PoolInstance> cache;
 
+    List<DebugMessage> debugMessages;
+
+    public ReadOnlyDictionary<string, PoolInstance> Cache { get => new ReadOnlyDictionary<string, PoolInstance>(cache); }
+
+    public ReadOnlyCollection<DebugMessage> DebugMessages { get => debugMessages.AsReadOnly(); }
+
+    bool updatePoolingEditor;
+
     private void Awake()
     {
         cache = new Dictionary<string, PoolInstance>();
+        debugMessages = new List<DebugMessage>();
         StartCoroutine(SlowCleanupOfEmptyValues());
     }
 
     // pool and destroy every child.
-    public void DestroyPooledObject(string group, GameObject obj, BasicMono settings)
+    public bool DestroyPooledObject(string group, GameObject obj, BasicMono settings)
     {
-        AllAsStandby(obj.GetComponentsInChildren<IPooling>());
+        // object can be poolable, but can't be pooled because group is missing.
+
         if (PoolExists(group))
         {
-            cache[group].DestroyExisting(obj);
+            CallbackStandby(obj.GetComponentsInChildren<IPooling>());
+            if (obj == null)
+            {
+                PoolingDebug("Pool-destroyed object is null. Skipped.");
+            }
+            bool isInPool = cache[group].FindAndMarkAsStandby(obj);
+            if (!isInPool)
+            {
+                PoolItem newPoolItem = cache[group].AddExistingToPool(obj);
+                newPoolItem.MarkAsStandby();
+                PoolingDebug("Adding new object to pool after it was destroyed. "+group+"|" + obj, obj);
+            }
+            else
+            {
+                PoolingDebug("Pool/set to standby "+obj);
+            }
+            return true;
         }
-        obj.transform.position = new Vector2(10000, 0);
-        // ignore incorrect tags
-        Debug.Log("Tag doesn't exist. Won't be pooled, just moved and .ipooling called.."+ group);
+        else
+        {
+            // Happens when type wasn't defined in pooling yet.
+            CallbackStandby(obj.GetComponentsInChildren<IPooling>());
+            PoolingDebug("");
+            PoolingDebug("WARNING:DESTROY FAILED: Group exist._|_" + group+"/"+obj + "_|Manually add it(include prefab)");
+            PoolingDebug("");
+            return false;
+        }
     }
 
     public GameObject CreateInstance(
@@ -32,7 +64,7 @@ public class Pooling : MonoBehaviour {
         Vector2 pos, 
         Quaternion rotation)
     {
-        Debug.Log("Create instance under tag "+registerUnderTag);
+        PoolingDebug("Create instance under tag "+registerUnderTag);
         if (!PoolExists(registerUnderTag))
         {
             CreateNewPoolType(10, registerUnderTag, prefab, true);
@@ -47,20 +79,20 @@ public class Pooling : MonoBehaviour {
     {
         for (int i = 0; i < objs.Length; i++)
         {
-            objs[i].OnPooledReady();
+            objs[i].OnPooledCreated();
         }
     }
 
-    void AllAsStandby(IPooling[] objs)
+    void CallbackStandby(IPooling[] objs)
     {
         for (int i = 0; i < objs.Length; i++)
         {
-            objs[i].OnPooledStandby();
+            objs[i].OnPooledDestroyed();
         }
     }
     private void CreateNewPoolType(int startSize, string group, Transform prefab, bool dynamic)
     {
-        Debug.Log("Create pool type with tag "+group);
+        PoolingDebug("Create pool type with tag "+group);
         PoolInstance instance = new PoolInstance(group, prefab, startSize, dynamic); 
         cache.Add(group, instance);
     }
@@ -82,12 +114,26 @@ public class Pooling : MonoBehaviour {
             }
         }
     }
-    private class PoolItem {
-        public GameObject instance;
+
+    void PoolingDebug(string msg)
+    {
+        //Debug.Log(msg);
+        debugMessages.Add(new DebugMessage(
+            string.Format("{0:F2}| {1}", Time.time, msg)));
+    }
+
+    void PoolingDebug(string msg, UnityEngine.Object context)
+    {
+        //Debug.Log(msg, context);
+        debugMessages.Add(new DebugMessage(msg, context));
+    }
+
+    public class PoolItem {
+        internal GameObject instance;
         public bool isInPoolOnStandby = true;
 
         // object is disabled until recalled to next pool.
-        internal void SetToStandby()
+        internal void MarkAsStandby()
         {
             isInPoolOnStandby = true;
             instance.transform.position = Vector2.one* 100000;
@@ -114,12 +160,17 @@ public class Pooling : MonoBehaviour {
         }
     }
 
-    private class PoolInstance {
+    public class PoolInstance {
         string group;
         Transform prefab;
         bool isSizeDynamic;
         int startSize;
         List<PoolItem> createdObjects;
+
+        public string Group { get => group; }
+        public Transform Prefab { get => prefab; }
+        public string IsSizeDynamic { get => IsSizeDynamic; }
+        public ReadOnlyCollection<PoolItem> CreatedObjects { get => createdObjects.AsReadOnly(); }
 
         public PoolInstance(string group, Transform prefab, int startSize, bool dynamicSize = true)
         {
@@ -134,34 +185,33 @@ public class Pooling : MonoBehaviour {
         /// Use sparringly. It's safer to use create.
         /// </summary>
         /// <param name="obj"></param>
-        public void AddExistingToPool(GameObject obj)
+        public PoolItem AddExistingToPool(GameObject obj)
         {
             PoolItem item = new PoolItem() { instance = obj, isInPoolOnStandby = false };
             //item.SetToReady(); no position information.
             createdObjects.Add(item);
+            return item;
         }
 
-        internal void DestroyExisting(GameObject obj)
+        /// <summary>
+        /// True: succesfully marked as standby
+        /// False: not found.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        internal bool FindAndMarkAsStandby(GameObject obj)
         {
-            if(obj == null)
-            {
-                Debug.Log("Pool-destroyed object is null. Skipped.");
-                return;
-            }
+            // if it exists, mark it as standby
             for (int i = 0; i < createdObjects.Count; i++)
             {
-                if (createdObjects[i] != null &&
-                    createdObjects[i].instance == obj)
+                if (createdObjects[i] == null) continue;
+                if (createdObjects[i].instance == obj)
                 {
-                    Debug.Log("Pool-Standby existing, id:"+i+createdObjects[i].instance);
-                    createdObjects[i].SetToStandby();
-                    return;
+                    createdObjects[i].MarkAsStandby();
+                    return true;
                 }
             }
-            Debug.Log("Couldn't destroy object because it's not in pool, adding it to pool on standby. "+obj, obj);
-            PoolItem item = new PoolItem() { instance = obj, isInPoolOnStandby = true };
-            item.SetToStandby();
-            createdObjects.Add(item);
+            return false;
         }
 
         public void Cleanup()

@@ -90,8 +90,10 @@ public class Spaceship : STANDPhysicsMono, IAITControllable, IPooling {
         if (this.TryGetUniqueClass<Pooling>())
         {
             // pool object, and disable every child
-            Debug.Log("pool destroy "+gameObject);
-            this.LastResult<Pooling>().DestroyPooledObject(PoolingGroupTag, gameObject, this);
+            Debug.Log(" spaceship pool destroy "+gameObject);
+            bool destroyOk = this.LastResult<Pooling>().DestroyPooledObject(PoolingGroupTag, gameObject, this);
+            if(!destroyOk)
+                base.DestroyObj();
         }
         else base.DestroyObj();
     }
@@ -109,15 +111,11 @@ public class Spaceship : STANDPhysicsMono, IAITControllable, IPooling {
         }
     }
 
-    public void OnPooledReady()
+    public void OnPooledCreated()
     {
-        /*InheritAlliance();
-        IsLocked = false;*/
     }
 
-    public void OnPooledStandby()
+    public void OnPooledDestroyed()
     {
-        /*IsLocked = true;
-        _localMoveDir = Vector2.zero;*/
     }
 }
