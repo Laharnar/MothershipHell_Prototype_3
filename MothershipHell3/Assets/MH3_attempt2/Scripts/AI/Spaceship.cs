@@ -96,15 +96,28 @@ public class Spaceship : STANDPhysicsMono, IAITControllable, IPooling {
         else base.DestroyObj();
     }
 
+    protected override void OnIsLockedChange(bool isLocked)
+    {
+        base.OnIsLockedChange(isLocked);
+        if (isLocked)
+        {
+            _localMoveDir = Vector2.zero;
+        }
+        else
+        {
+            InheritAlliance();
+        }
+    }
+
     public void OnPooledReady()
     {
-        InheritAlliance();
-        IsLocked = false;
+        /*InheritAlliance();
+        IsLocked = false;*/
     }
 
     public void OnPooledStandby()
     {
-        IsLocked = true;
-        _localMoveDir = Vector2.zero;
+        /*IsLocked = true;
+        _localMoveDir = Vector2.zero;*/
     }
 }
