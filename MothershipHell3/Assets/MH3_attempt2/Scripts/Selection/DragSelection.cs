@@ -7,19 +7,21 @@ using UnityEngine;
 /// Relies on ISelectable to distribute calls.
 /// </summary>1
 public class DragSelection : MonoBehaviour {
-    bool click = false;
 
-    List<ISelectable> selectedGameObjects;
-    Camera mainCam;
-
+    // instance
     [SerializeField] Rect selectArea;
     [SerializeField] List<STANDSelectableMono> selectableGameBehaviours;
 
-    // API properties
-    public List<ISelectable> SelectedObjects { get => selectedGameObjects; }
-
     // dev variables
     [SerializeField] List<GameObject> dev_currentlySelected;
+
+    // instance, local
+    bool click = false;
+    List<ISelectable> selectedGameObjects;
+    Camera mainCam;
+
+    // API properties
+    public List<ISelectable> SelectedObjects { get => selectedGameObjects; }
 
     private void Awake()
     {
@@ -99,6 +101,8 @@ public class DragSelection : MonoBehaviour {
     public void UnRegisterAsSelectable(STANDSelectableMono obj)
     {
         selectableGameBehaviours.Remove(obj);
+        selectedGameObjects.Remove(obj);
+        dev_currentlySelected.Remove(obj.gameObject);
     }
 
     public void RegisterAsSelectable(STANDSelectableMono obj)
