@@ -46,7 +46,8 @@ public class AITTarget : STANDSelectableMono, IPooling {
     {
         base.Preloader();
         // first time: on locked change doesn't get triggered on init.
-        this.GetUniqueClass<AITGlobalTracking>().RegisterAITTarget(this);
+        if (_isTargetableByOthers)
+            this.GetUniqueClass<AITGlobalTracking>().RegisterAITTarget(this);
     }
 
     protected override void OnIsUnlockedUpdate()
