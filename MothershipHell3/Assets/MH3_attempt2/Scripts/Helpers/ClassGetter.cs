@@ -42,6 +42,29 @@ public static class ClassCache {
         return t;
     }
 
+
+    /// <summary>
+    /// Use for quickly accessing unique classes, like managers.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="src"></param>
+    /// <returns></returns>
+    public static T GetUniqueClass<T>(this ScriptableObject src) where T : MonoBehaviour
+    {
+        if (cache.ContainsKey(typeof(T)))
+        {
+            if (cache[typeof(T)] == null)
+            {
+                cache[typeof(T)] = GameObject.FindObjectOfType<T>();
+            }
+            return (T)cache[typeof(T)];
+        }
+        T t = GameObject.FindObjectOfType<T>();
+        Debug.Log("Caching new unique class " + t + " with key type " + typeof(T));
+        cache.Add(typeof(T), t);
+        return t;
+    }
+
     /// <summary>
     /// Use for quickly accessing unique classes, like managers.
     /// </summary>
