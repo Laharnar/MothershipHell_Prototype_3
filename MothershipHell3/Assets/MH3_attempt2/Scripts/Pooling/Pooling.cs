@@ -52,7 +52,7 @@ public class Pooling : MonoBehaviour {
             // Happens when type wasn't defined in pooling yet.
             CallbackStandby(obj.GetComponentsInChildren<IPooling>());
             PoolingDebug("");
-            PoolingDebug("WARNING:DESTROY FAILED: Group exist._|_" + group+"/"+obj + "_|Manually add it(include prefab)");
+            PoolingDebug("WARNING:DESTROY FAILED: Group doesn't exist. Manually handle it._|_" + group+"/"+obj + "_|Manually add it(include prefab)");
             PoolingDebug("");
             return false;
         }

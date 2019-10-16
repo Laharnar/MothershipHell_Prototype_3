@@ -238,7 +238,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.7863903, y: 0.8293574, z: -20.426846}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1106519923}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -496,6 +497,7 @@ GameObject:
   - component: {fileID: 256031798}
   - component: {fileID: 256031800}
   - component: {fileID: 256031799}
+  - component: {fileID: 256031801}
   m_Layer: 0
   m_Name: EnemySpaceship
   m_TagString: Untagged
@@ -675,6 +677,26 @@ MonoBehaviour:
   _autoUpdateTrackingWhenTargetExists: 1
   _poolingGroupTag: fillout
   _isTargetableByOthers: 1
+--- !u!114 &256031801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256031793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bd69a4d60879a4b999913b3b21b659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  add:
+    useConstant: 1
+    constant: 1
+    number: {fileID: 0}
+  change:
+    useConstant: 0
+    constant: 0
+    number: {fileID: 11400000, guid: ca5409a852d2922459ac60a7d7bba9fe, type: 2}
 --- !u!1001 &292731365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1158,7 +1180,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.034, y: -0.0000053719}
   m_SizeDelta: {x: 2000, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &806449833
@@ -1437,6 +1459,54 @@ Transform:
   m_Father: {fileID: 459587729}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1106519922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1106519923}
+  - component: {fileID: 1106519924}
+  m_Layer: 0
+  m_Name: VarINitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1106519923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106519922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 101465339}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1106519924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106519922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609b35f7deaa20740834434e4f9d159e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setTo:
+    useConstant: 1
+    constant: 0
+    number: {fileID: 0}
+  refs: {fileID: 11400000, guid: 0bbf8baafc8a8384e8f70de575a5cccc, type: 2}
 --- !u!1001 &1171372018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2055,6 +2125,7 @@ GameObject:
   - component: {fileID: 1747377708}
   - component: {fileID: 1747377707}
   - component: {fileID: 1747377706}
+  - component: {fileID: 1747377713}
   m_Layer: 0
   m_Name: EnemySpaceship (1)
   m_TagString: Untagged
@@ -2097,7 +2168,7 @@ MonoBehaviour:
   isRoot: 1
   alliance: 1
   _autoUpdateTrackingWhenTargetExists: 1
-  _poolingGroupTag: fillout
+  _poolingGroupTag: ShipType1
   _isTargetableByOthers: 1
 --- !u!61 &1747377708
 BoxCollider2D:
@@ -2213,7 +2284,7 @@ MonoBehaviour:
   _rig: {fileID: 1747377710}
   _localMoveDir: {x: 0, y: 0}
   _alliance: 1
-  inheritAllianceFromAITTarget: 0
+  inheritAllianceFromAITTarget: 1
   _spaceshipTypeFilter: 0
   _health: 5
   _dmgModifier: 1
@@ -2234,6 +2305,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1747377713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747377705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bd69a4d60879a4b999913b3b21b659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  add:
+    useConstant: 1
+    constant: 1
+    number: {fileID: 0}
+  change:
+    useConstant: 0
+    constant: 0
+    number: {fileID: 11400000, guid: ca5409a852d2922459ac60a7d7bba9fe, type: 2}
 --- !u!1001 &1765896367
 PrefabInstance:
   m_ObjectHideFlags: 0
