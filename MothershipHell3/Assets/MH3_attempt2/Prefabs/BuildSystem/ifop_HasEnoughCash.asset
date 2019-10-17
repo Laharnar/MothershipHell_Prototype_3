@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8447a6df025fe444c977fb747cb8b035, type: 3}
+  m_Name: ifop_HasEnoughCash
+  m_EditorClassIdentifier: 
+  Value1:
+    useConstant: 0
+    constant: 0
+    number: {fileID: 11400000, guid: 6edb4b153bd6d4f479a41bf75e34c1ed, type: 2}
+  Operator: 2
+  Value2:
+    useConstant: 0
+    constant: 0
+    number: {fileID: 11400000, guid: c735ebbdabb302e4c98f46cd29392c43, type: 2}
+  lastResult: 0

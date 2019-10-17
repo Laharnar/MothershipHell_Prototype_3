@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f202e0d22c7984489d58727fc47d9df, type: 3}
+  m_Name: TurretSpawner
+  m_EditorClassIdentifier: 
+  prefab:
+    useConstant: 1
+    constant: {fileID: 3659439185076988400, guid: ba24dd60e973991408147e7a16a82601,
+      type: 3}
+    number: {fileID: 0}
+  canSpawn:
+    useConstant: 1
+    constant: 1
+    bvalue: {fileID: 0}
+  spawnedStorage: {fileID: 11400000, guid: 0a9a132b43e1e1b48aaa331f043ae83f, type: 2}
+  spawnPointRef:
+    useConstant: 0
+    constant: {fileID: 0}
+    number: {fileID: 11400000, guid: ecaf69537c515d940a5f2539b12ba27e, type: 2}
+  lastSpawned:
+    useConstant: 1
+    constant: {fileID: 0}
+    number: {fileID: 0}

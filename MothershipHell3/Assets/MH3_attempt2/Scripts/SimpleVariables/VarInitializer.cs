@@ -3,7 +3,7 @@
 public class VarInitializer:MonoBehaviour {
 
     [SerializeField] FloatReference setTo;
-    [SerializeField] ReferenceArray refs;
+    [SerializeField] FloatReferenceArray refs;
 
     private void Start()
     {

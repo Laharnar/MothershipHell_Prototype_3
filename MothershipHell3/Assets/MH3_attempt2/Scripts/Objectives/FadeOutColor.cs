@@ -39,8 +39,8 @@ public class FadeOutColor : MonoBehaviour
         float t = 0f;
         while (t<1f)
         {
-            SetColor( Color.Lerp(fadeInColor, fadeOutColor, t));
             t += Time.deltaTime;
+            SetColor( Color.Lerp(fadeInColor, fadeOutColor, t));
             yield return null;
         }
     }
@@ -51,8 +51,8 @@ public class FadeOutColor : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
-            SetColor( Color.Lerp(fadeOutColor, fadeInColor, t));
             t += Time.deltaTime;
+            SetColor( Color.Lerp(fadeOutColor, fadeInColor, t));
             yield return null;
         }
     }

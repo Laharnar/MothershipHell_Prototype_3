@@ -2,11 +2,11 @@
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ReferenceArray : ScriptableObject {
+public class FloatReferenceArray : ScriptableObject {
 
     [SerializeField] FloatReference[] refs;
 
-    internal void Call(Func<FloatReference, float> callback, FloatReference setTo)
+    public void Call(Func<FloatReference, float> callback, FloatReference setTo)
     {
         for (int i = 0; i < refs.Length; i++)
         {

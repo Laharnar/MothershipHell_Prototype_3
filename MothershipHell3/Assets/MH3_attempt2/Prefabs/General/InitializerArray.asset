@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3dc79616d196b948a709ecc288f8739, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b975e455fe40934297b709b22f21ff1, type: 3}
   m_Name: InitializerArray
   m_EditorClassIdentifier: 
-  refs:
-  - useConstant: 0
-    constant: 0
-    number: {fileID: 11400000, guid: ca5409a852d2922459ac60a7d7bba9fe, type: 2}
+  refs: []

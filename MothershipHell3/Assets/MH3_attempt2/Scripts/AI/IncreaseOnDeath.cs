@@ -6,6 +6,8 @@
 public class IncreaseOnDeath:MonoBehaviour, IPooling {
     [SerializeField] FloatReference add;
     [SerializeField] FloatReference change;
+    [SerializeField] IntReference iadd;
+    [SerializeField] IntReference ichange;
 
     // prevents double triggers in case of destroy + pool was called here.
     bool triggered = false;
@@ -27,6 +29,7 @@ public class IncreaseOnDeath:MonoBehaviour, IPooling {
         if (triggered) return;
 
         change.Value += add.Value;
+        ichange.Value += iadd.Value;
         triggered = true;
     }
 
@@ -35,5 +38,6 @@ public class IncreaseOnDeath:MonoBehaviour, IPooling {
         if (triggered) return;
         triggered = true;
         change.Value += add.Value;
+        ichange.Value += iadd.Value;
     }
 }
